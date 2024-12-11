@@ -20,6 +20,12 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Replicated UObject")
 	AActor* GetOwningActor() const;
 	
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Replicated UObject")
+	virtual bool HasAuthority() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Replicated UObject")
+	virtual bool IsOwnerLocallyControlled() const;
+	
 public:
 	//Will mark this UObject as garbage and will eventually get cleaned by the garbage collector.
 	//Should only execute this on the server.
