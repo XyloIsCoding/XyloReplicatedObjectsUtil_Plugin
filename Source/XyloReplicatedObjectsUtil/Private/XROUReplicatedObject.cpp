@@ -19,15 +19,6 @@ bool UXROUReplicatedObject::HasAuthority() const
 	return GetOwningActor() && GetOwningActor()->HasAuthority();
 }
 
-bool UXROUReplicatedObject::IsOwnerLocallyControlled() const
-{
-	if (const APawn* OwnerPawn = GetTypedOuter<APawn>())
-	{
-		return OwnerPawn->IsLocallyControlled();
-	}
-	return false;
-}
-
 void UXROUReplicatedObject::DestroyObject()
 {
 	if (IsValid(this))
