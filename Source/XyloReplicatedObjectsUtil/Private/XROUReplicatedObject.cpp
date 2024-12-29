@@ -19,6 +19,12 @@ bool UXROUReplicatedObject::HasAuthority() const
 	return GetOwningActor() && GetOwningActor()->HasAuthority();
 }
 
+ENetRole UXROUReplicatedObject::GetOwnerRole() const
+{
+	const AActor* MyOwner = GetOwningActor();
+	return (MyOwner ? MyOwner->GetLocalRole() : ROLE_None);
+}
+
 void UXROUReplicatedObject::DestroyObject()
 {
 	if (IsValid(this))
