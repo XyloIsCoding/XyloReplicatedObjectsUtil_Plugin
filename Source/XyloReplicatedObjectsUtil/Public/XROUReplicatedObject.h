@@ -19,11 +19,17 @@ public:
 	//Gets the Actor that "owns" this Replicated UObject.
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Replicated UObject")
 	AActor* GetOwningActor() const;
+
+	ENetRole GetOwnerRole() const;
 	
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Replicated UObject")
 	virtual bool HasAuthority() const;
 
-	ENetRole GetOwnerRole() const;
+	/** Returns whether replication is enabled or not. */
+	bool GetIsReplicated() const { return true; }
+	
+	/** Returns true if we are replicating and this client is not authoritative */
+	bool IsNetSimulating() const;
 
 public:
 	//Will mark this UObject as garbage and will eventually get cleaned by the garbage collector.
