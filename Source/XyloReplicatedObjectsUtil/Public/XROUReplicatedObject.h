@@ -36,10 +36,14 @@ public:
 	//Should only execute this on the server.
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Replicated UObject", DisplayName = "Destroy Replicated UObject")
 	virtual void DestroyObject();
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Replicated UObject", DisplayName = "Destroy Replicated UObject")
+	bool IsBeingDestroyed() const { return bIsBeingDestroyed; }
 protected:
 	//Will get called on the server once the Replicated UObject has been marked as garbage.
 	UFUNCTION(BlueprintImplementableEvent, Category = "Replicated UObject", DisplayName = "On Replicated UObject Destroyed")
 	void OnDestroyed();
+private:
+	bool bIsBeingDestroyed = false;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

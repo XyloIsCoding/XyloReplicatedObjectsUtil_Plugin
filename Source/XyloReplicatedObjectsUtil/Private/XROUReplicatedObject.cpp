@@ -34,6 +34,7 @@ void UXROUReplicatedObject::DestroyObject()
 {
 	if (IsValid(this))
 	{
+		bIsBeingDestroyed = true;
 		MarkAsGarbage();
 		OnDestroyed();
 	}
