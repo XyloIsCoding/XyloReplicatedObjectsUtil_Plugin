@@ -39,11 +39,13 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Replicated UObject", DisplayName = "Destroy Replicated UObject")
 	bool IsBeingDestroyed() const { return bIsBeingDestroyed; }
 protected:
+	virtual void OnDestroyed();
 	//Will get called on the server once the Replicated UObject has been marked as garbage.
 	UFUNCTION(BlueprintImplementableEvent, Category = "Replicated UObject", DisplayName = "On Replicated UObject Destroyed")
-	void OnDestroyed();
+	void K2_OnDestroyed();
 private:
 	bool bIsBeingDestroyed = false;
+	bool bHasBeenCreated = true;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,6 +54,7 @@ private:
 	 */
 	
 public:
+	virtual void BeginDestroy() override;
 	virtual bool IsSupportedForNetworking() const override { return true; }
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual UWorld* GetWorld() const override;

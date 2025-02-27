@@ -32,12 +32,24 @@ bool UXROUReplicatedObject::IsNetSimulating() const
 
 void UXROUReplicatedObject::DestroyObject()
 {
+	if (bIsBeingDestroyed)
+    {
+    	return;
+    }
+    	
 	if (IsValid(this))
 	{
 		bIsBeingDestroyed = true;
-		MarkAsGarbage();
 		OnDestroyed();
+		K2_OnDestroyed();
+		
+		MarkAsGarbage();
 	}
+}
+
+void UXROUReplicatedObject::OnDestroyed()
+{
+	bHasBeenCreated = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,9 +58,19 @@ void UXROUReplicatedObject::DestroyObject()
  * UObject Interface
  */
 
+void UXROUReplicatedObject::BeginDestroy()
+{
+	if (bHasBeenCreated)
+	{
+		OnDestroyed();
+	}
+	
+	Super::BeginDestroy();
+}
+
 void UXROUReplicatedObject::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-	UObject::GetLifetimeReplicatedProps(OutLifetimeProps);
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	if (const UBlueprintGeneratedClass* BPCClass = Cast<UBlueprintGeneratedClass>(GetClass()))
 	{
@@ -104,4 +126,8 @@ void UXROUReplicatedObject::OnCreatedFromReplication()
 
 void UXROUReplicatedObject::OnDestroyedFromReplication()
 {
+	if (bHasBeenCreated)
+	{
+		OnDestroyed();
+	}
 }
